@@ -1,2 +1,2 @@
 # PetFriends
-API test site Pet Friends
+API test Pet Friends
