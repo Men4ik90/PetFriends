@@ -1,0 +1,288 @@
+{
+	"info": {
+		"_postman_id": "ec7955c6-cb09-42d3-9c45-cf908578943f",
+		"name": "PetFriend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25255139"
+	},
+	"item": [
+		{
+			"name": "Get api key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"      pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.expect(jsonData).to.have.all.keys('key')",
+							"pm.collectionVariables.set(\"auth_key\", jsonData.key);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "email",
+						"value": "eganaprime@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "Egaega90",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{url}}/api/key",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"key"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"      pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    pm.collectionVariables.set(\"petid\", jsonData.id);",
+							"pm.collectionVariables.set(\"name\", jsonData.name);",
+							"pm.collectionVariables.set(\"age\", jsonData.age);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "animal_type",
+							"value": "{{type}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/create_pet_simple",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"create_pet_simple"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change pet's name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"      pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Смена имени с сохранением в переменной\", function () {",
+							"      var jsonData = JSON.parse(responseBody);",
+							"pm.expect(pm.collectionVariables.get(\"name\")).to.not.eql(jsonData.name)",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Bob",
+							"type": "text"
+						},
+						{
+							"key": "animal_type",
+							"value": "Kot",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "48",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/pets/{{petid}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"pets",
+						"{{petid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check new pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"      let Jsondata = JSON.parse (responseBody);",
+							"      pm.collectionVariables. set (\"name\", Jsondata. name)  ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{auth_key}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "auth_key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{auth_key}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "auth_key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "petfriends.skillfactory.ru/",
+			"type": "string"
+		},
+		{
+			"key": "auth_key",
+			"value": ""
+		},
+		{
+			"key": "type",
+			"value": "Что-то ",
+			"type": "string"
+		},
+		{
+			"key": "name",
+			"value": "Что-то с чем-то",
+			"type": "string"
+		},
+		{
+			"key": "age",
+			"value": "34",
+			"type": "string"
+		},
+		{
+			"key": "petid",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
